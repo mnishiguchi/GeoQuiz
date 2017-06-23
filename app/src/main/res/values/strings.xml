@@ -3,4 +3,6 @@
     <string name="question_text">Yokkaichi is the largest city in Japan</string>
     <string name="true_button">True</string>
     <string name="false_button">False</string>
+    <string name="incorrect_message">incorrect_message</string>
+    <string name="correct_message">correct_message</string>
 </resources>
