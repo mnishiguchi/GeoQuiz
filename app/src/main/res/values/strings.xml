@@ -1,8 +1,13 @@
 <resources>
     <string name="app_name">GeoQuiz</string>
-    <string name="question_text">Yokkaichi is the largest city in Japan</string>
     <string name="true_button">True</string>
     <string name="false_button">False</string>
     <string name="incorrect_message">incorrect_message</string>
     <string name="correct_message">correct_message</string>
+    <string name="next_button">Next</string>
+    <string name="quiz_01">The Pacific Ocean is larger than the Atlantic Ocean.</string>
+    <string name="quiz_02">The Suez Canal connects the Red Sea and the Indian Ocean.</string>
+    <string name="quiz_03">The source of Nile River is in Egypt.</string>
+    <string name="quiz_04">The Amazon river is the longest river in the Americas.</string>
+    <string name="quiz_05">Lake Baikal is the world\'s oldest and deepest freshwater lake.</string>
 </resources>

@@ -10,9 +10,9 @@
     tools:context="com.mnishiguchi.geoquiz.ui.MainActivity">
 
     <TextView
+        android:id="@+id/questionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/question_text"
         android:padding="24px"/>
 
     <LinearLayout
@@ -24,15 +24,20 @@
             android:id="@+id/trueButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="@string/true_button" />
 
         <Button
             android:id="@+id/falseButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="@string/false_button" />
+
     </LinearLayout>
+
+    <Button
+        android:id="@+id/nextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/next_button" />
 
 </LinearLayout>
