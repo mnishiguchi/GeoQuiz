@@ -5,3 +5,4 @@ I do this exercise using Kotlin instead of Java.
 
 ## Notes
 - [Adding an icon](https://gist.github.com/mnishiguchi/aa33071795724232c20b395a671f0eb7)
+- [Loading local json from assets](https://gist.github.com/mnishiguchi/834b336fb20f85e79010b50b0c088cbc)

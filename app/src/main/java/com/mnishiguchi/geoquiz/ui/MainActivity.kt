@@ -1,9 +1,11 @@
 package com.mnishiguchi.geoquiz.ui
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import com.mnishiguchi.geoquiz.R
 import com.mnishiguchi.geoquiz.domain.Question
+import com.mnishiguchi.geoquiz.ext.readAssetFile
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.toast
 
@@ -12,8 +14,10 @@ import org.jetbrains.anko.toast
 class MainActivity : AppCompatActivity() {
 
     companion object {
+        private val TAG = "MainActivity"
+
         // TODO("How best can I store questions and answers?")
-        private val questionBank = listOf (
+        private val questionBank = listOf(
                 Question(R.string.quiz_01, true),
                 Question(R.string.quiz_02, false),
                 Question(R.string.quiz_03, false),
@@ -38,6 +42,10 @@ class MainActivity : AppCompatActivity() {
             setNextIndex()
             updateQuestion()
         }
+
+        // DEBUG
+        val json = readAssetFile("questions.json")
+        Log.d(TAG, json)
     }
 
     // Decrement the current index. Loop infinitely.

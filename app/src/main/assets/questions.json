@@ -1,0 +1,25 @@
+{
+  "questions": [
+    {
+      "question": "The Pacific Ocean is larger than the Atlantic Ocean.",
+      "answer": true
+    },
+    {
+      "question": "The Suez Canal connects the Red Sea and the Indian Ocean.",
+      "answer": false
+    },
+    {
+      "question": "The source of Nile River is in Egypt.",
+      "answer": false
+    },
+    {
+      "question": "The Amazon river is the longest river in the Americas.",
+      "answer": true
+    },
+    {
+      "question": "Lake Baikal is the world's oldest and deepest freshwater lake.",
+      "answer": true
+    }
+  ]
+}
+
