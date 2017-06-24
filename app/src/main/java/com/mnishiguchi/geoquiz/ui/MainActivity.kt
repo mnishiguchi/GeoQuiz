@@ -12,7 +12,8 @@ import org.jetbrains.anko.toast
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        private val questionBank = listOf<Question>(
+        // TODO("How best can I store questions and answers?")
+        private val questionBank = listOf (
                 Question(R.string.quiz_01, true),
                 Question(R.string.quiz_02, false),
                 Question(R.string.quiz_03, false),
@@ -24,28 +25,42 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Inflate a layout and puts it on screen.
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_main) // Inflate a layout and puts it on screen.
 
         questionText.setText(questionBank[currentIndex].textResId)
-
-        trueButton.setOnClickListener {
-            toast(R.string.incorrect_message)
+        trueButton.setOnClickListener { checkAnswer(true) }
+        falseButton.setOnClickListener { checkAnswer(false) }
+        prevButton.setOnClickListener {
+            setPrevIndex()
+            updateQuestion()
         }
-
-        falseButton.setOnClickListener {
-            toast(R.string.correct_message)
-        }
-
         nextButton.setOnClickListener {
-            currentIndex = (currentIndex + 1) % questionBank.size
+            setNextIndex()
             updateQuestion()
         }
     }
 
+    // Decrement the current index. Loop infinitely.
+    private fun setPrevIndex() {
+        currentIndex = if (currentIndex == 0) questionBank.size - 1 else currentIndex - 1
+    }
+
+    // Increment the current index. Loop infinitely.
+    private fun setNextIndex() {
+        currentIndex = (currentIndex + 1) % questionBank.size
+    }
+
+    // Set a question based on the current index.
     private fun updateQuestion() {
         val question = questionBank[currentIndex].textResId
         questionText.setText(question)
+    }
+
+    private fun checkAnswer(isUserInputTrue: Boolean) {
+        if (isUserInputTrue == questionBank[currentIndex].isTrue) {
+            toast(R.string.correct_message)
+        } else {
+            toast(R.string.incorrect_message)
+        }
     }
 }
