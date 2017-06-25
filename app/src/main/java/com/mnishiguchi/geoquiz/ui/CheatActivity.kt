@@ -1,16 +1,22 @@
 package com.mnishiguchi.geoquiz.ui
 
-import android.support.v7.app.AppCompatActivity
+import android.content.Context
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.mnishiguchi.geoquiz.R
 import kotlinx.android.synthetic.main.activity_cheat.*
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.startActivity
 
 class CheatActivity : AppCompatActivity() {
 
     companion object {
         val TAG = "CheatActivity"
+        val EXTRA_ANSWER = "com.mnishiguchi.geoquiz.answer"
+
+        fun start(context: Context, answer: Boolean) {
+            context.startActivity<CheatActivity>(EXTRA_ANSWER to answer)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,10 +24,12 @@ class CheatActivity : AppCompatActivity() {
         setContentView(R.layout.activity_cheat)
 
         showAnswerButton.setOnClickListener {
-            toast("showAnswerButton clicked")
+            when (intent.getBooleanExtra(EXTRA_ANSWER, true)) {
+                true  -> { answerText.setText(R.string.true_button) }
+                false -> { answerText.setText(R.string.false_button) }
+            }
         }
     }
-
 
     /* Lifecycle methods */
 
