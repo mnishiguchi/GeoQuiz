@@ -8,6 +8,7 @@ import com.mnishiguchi.geoquiz.domain.QuestionBank
 import com.mnishiguchi.geoquiz.domain.QuestionBankJsonAdapter
 import com.mnishiguchi.geoquiz.ext.readAssetFile
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
 // AppCompatActivity is a subclass of Android's Activity class that provides compatibility support
@@ -35,6 +36,11 @@ class MainActivity : AppCompatActivity() {
 
         trueButton.setOnClickListener { checkAnswer(true) }
         falseButton.setOnClickListener { checkAnswer(false) }
+
+        cheatButton.setOnClickListener {
+            startActivity<CheatActivity>()
+        }
+
         prevButton.setOnClickListener {
             setPrevIndex()
             updateQuestion()
