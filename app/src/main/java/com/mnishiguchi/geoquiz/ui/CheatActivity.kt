@@ -1,22 +1,39 @@
 package com.mnishiguchi.geoquiz.ui
 
-import android.content.Context
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.mnishiguchi.geoquiz.R
 import kotlinx.android.synthetic.main.activity_cheat.*
-import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.startActivityForResult
 
 class CheatActivity : AppCompatActivity() {
 
     companion object {
-        val TAG = "CheatActivity"
-        val EXTRA_ANSWER = "com.mnishiguchi.geoquiz.answer"
+        private val TAG = "CheatActivity"
+        private val EXTRA_ANSWER = "com.mnishiguchi.geoquiz.answer"
+        private val EXTRA_WAS_ANSWER_SHOWN = "com.mnishiguchi.geoquiz.was_answer_shown"
 
-        fun start(context: Context, answer: Boolean) {
-            context.startActivity<CheatActivity>(EXTRA_ANSWER to answer)
+        // Encapsulate the logic for a parent activity to start this activity.
+        fun startForResult(activity: Activity, resultCode: Int, answer: Boolean) {
+            activity.startActivityForResult<CheatActivity>(resultCode, EXTRA_ANSWER to answer)
         }
+
+        // Encapsulate the logic for a parent activity to decode the result data.
+        fun cheatResult(result: Intent) : Boolean {
+            return result.getBooleanExtra(EXTRA_WAS_ANSWER_SHOWN, false)
+        }
+    }
+
+    private fun setCheatResult(wasAnswerShown: Boolean) {
+        // The result code is typically either Activity.RESULT_OK or Activity.RESULT_CANCELED.
+        // Calling setResult is not requred of the child activity.
+        // If setResult is not called, when the user presses the back button the parent will receive
+        // Activity.RESULT_CANCELED.
+        setResult(Activity.RESULT_OK, intentFor<CheatActivity>(EXTRA_WAS_ANSWER_SHOWN to wasAnswerShown))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,10 +45,9 @@ class CheatActivity : AppCompatActivity() {
                 true  -> { answerText.setText(R.string.true_button) }
                 false -> { answerText.setText(R.string.false_button) }
             }
+            setCheatResult(true)
         }
     }
-
-    /* Lifecycle methods */
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)

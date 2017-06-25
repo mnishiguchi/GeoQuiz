@@ -1,5 +1,7 @@
 package com.mnishiguchi.geoquiz.ui
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -17,10 +19,12 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private val TAG = "MainActivity"
         private val KEY_INDEX = "index"
+        private val REQUEST_CODE_CHEAT = 0
     }
 
     private val questionBank by lazy { loadQuestions() }
     private var currentIndex = 0
+    private var didCheat = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,16 +41,21 @@ class MainActivity : AppCompatActivity() {
         falseButton.setOnClickListener { checkAnswer(false) }
 
         cheatButton.setOnClickListener {
-            CheatActivity.start(this, questionBank[currentIndex].answer)
+            // Start CheatActivity and get the result from it.
+            CheatActivity.startForResult(this,
+                    resultCode = REQUEST_CODE_CHEAT,
+                    answer = questionBank[currentIndex].answer)
         }
 
         prevButton.setOnClickListener {
             setPrevIndex()
             updateQuestion()
+            didCheat = false
         }
         nextButton.setOnClickListener {
             setNextIndex()
             updateQuestion()
+            didCheat = false
         }
     }
 
@@ -65,11 +74,15 @@ class MainActivity : AppCompatActivity() {
         questionText.text = questionBank[currentIndex].question
     }
 
+    // Show message according to the passed in user input.
     private fun checkAnswer(userInput: Boolean) {
-        if (userInput == questionBank[currentIndex].answer) {
-            toast(R.string.correct_message)
+        if (didCheat) {
+            toast(R.string.judgement_toast)
         } else {
-            toast(R.string.incorrect_message)
+            when (userInput == questionBank[currentIndex].answer) {
+                true  -> { toast(R.string.correct_message) }
+                false -> { toast(R.string.incorrect_message) }
+            }
         }
     }
 
@@ -80,13 +93,22 @@ class MainActivity : AppCompatActivity() {
         return QuestionBankJsonAdapter().fromJson(json)
     }
 
-    /* Lifecycle methods */
-
     // https://developer.android.com/guide/components/activities/activity-lifecycle.html#saras.
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         Log.d(TAG, "onSaveInstanceState")
         outState.putInt(KEY_INDEX, currentIndex)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        // The result code is typically either Activity.RESULT_OK or Activity.RESULT_CANCELED.
+        if (resultCode != Activity.RESULT_OK) return
+
+        when (requestCode) {
+            REQUEST_CODE_CHEAT -> {
+                data?.let { didCheat = CheatActivity.cheatResult(data) }
+            }
+        }
     }
 
     override fun onStart() {
