@@ -16,16 +16,23 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private val TAG = "MainActivity"
+        private val KEY_INDEX = "index"
     }
 
-    val questionBank by lazy { loadQuestions() }
+    private val questionBank by lazy { loadQuestions() }
     private var currentIndex = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main) // Inflate a layout and puts it on screen.
+        setContentView(R.layout.activity_main)
 
-        questionText.text = questionBank[currentIndex].question
+        // Restore the state.
+        if (savedInstanceState != null) {
+            currentIndex = savedInstanceState.getInt(KEY_INDEX)
+        }
+
+        updateQuestion()
+
         trueButton.setOnClickListener { checkAnswer(true) }
         falseButton.setOnClickListener { checkAnswer(false) }
         prevButton.setOnClickListener {
@@ -69,6 +76,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     /* Lifecycle methods */
+
+    // https://developer.android.com/guide/components/activities/activity-lifecycle.html#saras.
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.d(TAG, "onSaveInstanceState")
+        outState.putInt(KEY_INDEX, currentIndex)
+    }
 
     override fun onStart() {
         super.onStart()
